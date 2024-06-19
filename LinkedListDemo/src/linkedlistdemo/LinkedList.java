@@ -10,6 +10,7 @@ package linkedlistdemo;
  * @author NGUYEN DUC VIET
  */
 public class LinkedList {
+
     private DataNode head;
     private DataNode tail;
 
@@ -33,56 +34,137 @@ public class LinkedList {
     public void setTail(DataNode tail) {
         this.tail = tail;
     }
-    
-    public void addHead(int info){
+
+    public void addHead(int info) {
         DataNode newNode = new DataNode();
-        newNode.setInfo(info);       
+        newNode.setInfo(info);
         newNode.setNext(head);
         head = newNode;
-        
+
         if (tail == null) {
             tail = newNode;
         }
     }
-    
-    public void addTail(int info){
+
+    public void addTail(int info) {
         DataNode newNode = new DataNode();
         newNode.setInfo(info);
         tail.setNext(newNode);
         tail = newNode;
-        
-        if (head == null){
+
+        if (head == null) {
             head = newNode;
         }
     }
-    
-    public DataNode search(int searchedInfo){
+
+    public void insertDataNode(int info, int index) {
+        if (index == 0) {
+            addHead(info);
+        } else {
+            DataNode p = head;
+            int pos = 0;
+            while (p != null) {
+                if (index - 1 == pos) {
+                    break;
+                }
+                p = p.getNext();
+                pos++;
+            }
+            if (p == null) {
+                return;
+            } else {
+                DataNode newNode = new DataNode();
+                if (p.getNext() == null) {
+                    addTail(info);
+                } else {
+                    newNode.setInfo(info);
+                    newNode.setNext(p.getNext());
+                    p.setNext(newNode);
+                }
+
+            }
+        }
+    }
+
+    public DataNode searchInfo(int searchedInfo) {
         DataNode p = head;
-        while (p != null){
-            if (p.getInfo() == searchedInfo){
+        while (p != null) {
+            if (p.getInfo() == searchedInfo) {
                 return p;
             }
             p = p.getNext();
         }
         return p;
     }
-    
-    public void removeDataNode(int n){
+
+    public DataNode searchIndex(int index) {
         DataNode p = head;
-        int i = 0;
-        while(i < n-1 && p != null){
-//            p.setNext(p);
+        int pos = 0;
+        while (p != null) {
+            if (index - 1 == pos) {
+                break;
+            }
             p = p.getNext();
-            i++;
+            pos++;
         }
-        if (p != null){
-            p = p.getNext();
+        if (p == null) {
+            return null;
         }
+        return p;
     }
-    
-    public void traverse(){
+
+    public void deleteHead() {
+        head = head.getNext();
+    }
+
+    public int delHead() {
+        int value = head.getInfo();
+        head = head.getNext();
+        return value;
+    }
+
+    public void deleteTail() {
         DataNode p = head;
-        while (p != null){
+        while (p.getNext() != tail) {
+            p = p.getNext();
+        }
+        p.getNext().setNext(null);
+        tail = p;
+    }
+
+    public int delTail() {
+        DataNode p = head;
+        while (p.getNext() != tail) {
+            p = p.getNext();
+        }
+        int value = p.getNext().getInfo();
+        p.getNext().setNext(null);
+        tail = p;
+        return value;
+    }
+
+    public int deleteDataNode(int index) {
+        if (index < 0) {
+            return -1;
+        }
+        if (index == 0) {
+            return delHead();
+        }
+        DataNode p = searchIndex(index);
+        if (p == null) {
+            return -1;
+        }
+        if (p == tail) {
+            return delTail();
+        }
+        int value = p.getNext().getInfo();
+        p.setNext(p.getNext().getNext());
+        return value;
+    }
+
+    public void traverse() {
+        DataNode p = head;
+        while (p != null) {
             System.out.println(p);
             p = p.getNext();
         }
