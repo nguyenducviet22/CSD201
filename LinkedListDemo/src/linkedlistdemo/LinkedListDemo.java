@@ -16,28 +16,38 @@ public class LinkedListDemo {
      */
     public static void main(String[] args) {
         LinkedList list = new LinkedList();
-        
+
         list.addHead(10);
         list.addHead(20);
         list.addHead(30);
-        
+
         list.addTail(40);
         list.addTail(50);
+
+        list.insertDataNode(5, 2);
+        list.insertDataNode(15, 6);
+        list.addTail(25);
+
+//        list.deleteHead();
+//        System.out.println("first node: " + list.delHead());
+//        list.delHead();
+//        list.deleteTail();
+//        System.out.println("last node: " + list.delTail());
+//        list.delTail();
+//        list.delTail();
+//        list.delTail();
+        list.traverse();
+
+//        DataNode p = list.searchInfo(10);
+//        if (p != null) {
+//            System.out.println("Found: " + p);
+//        } else {
+//            System.out.println("Not found");
+//        }
         
-//        list.traverse();       
-        DataNode p = list.search(10);
-        if (p != null){
-            System.out.println("Found: " + p);
-        } else {
-            System.out.println("Not found");
-        }
+        System.out.println(list.searchIndex(2).getInfo());
         
-        p = list.search(3);
-        if (p != null){
-            System.out.println("Found: " + p);
-        } else {
-            System.out.println("Not found");
-        }
+//        System.out.println("Delete: " + list.deleteDataNode(2));
+//        list.traverse();
     }
-    
 }
