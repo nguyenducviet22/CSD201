@@ -45,9 +45,16 @@ public class LinkedListDemo {
 //            System.out.println("Not found");
 //        }
         
-        System.out.println(list.searchIndex(2).getInfo());
+//        System.out.println(list.searchPreIndex(2).getInfo());
+//        System.out.println(list.searchIndex(2).getInfo());
+//        System.out.println(list.searchPreFirstInfo(50).getInfo());
+//        System.out.println(list.searchFirstInfo(50).getInfo());
+                
         
 //        System.out.println("Delete: " + list.deleteDataNode(2));
-//        list.traverse();
+
+        System.out.println("Sorted list: ");
+        list.sort();
+        list.traverse();
     }
 }
