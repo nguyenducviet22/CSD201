@@ -81,12 +81,11 @@ public class LinkedList {
                     newNode.setNext(p.getNext());
                     p.setNext(newNode);
                 }
-
             }
         }
     }
 
-    public DataNode searchInfo(int searchedInfo) {
+    public DataNode searchFirstInfo(int searchedInfo) {
         DataNode p = head;
         while (p != null) {
             if (p.getInfo() == searchedInfo) {
@@ -96,8 +95,34 @@ public class LinkedList {
         }
         return p;
     }
+    
+    public DataNode searchPreFirstInfo(int searchInfo) {
+        DataNode p = head;
+        while (p != null){
+            if (p.getNext().getInfo() == searchInfo) break;
+            p = p.getNext();
+        }
+        return p;
+    }
+    
+//    public DataNode searchLastInfo(int searchedInfo);
+//    public DataNode searchPreLastInfo(int searchedInfo);
+    
+    public DataNode searchIndex(int index){
+        DataNode p = head;
+        int pos = 0;
+        while (p !=null){
+            if (index == pos) break;
+            p = p.getNext();
+            pos++;
+        }
+        if (p == null){
+            return null;
+        }
+        return p;
+    }
 
-    public DataNode searchIndex(int index) {
+    public DataNode searchPreIndex(int index) {
         DataNode p = head;
         int pos = 0;
         while (p != null) {
@@ -150,7 +175,7 @@ public class LinkedList {
         if (index == 0) {
             return delHead();
         }
-        DataNode p = searchIndex(index);
+        DataNode p = searchPreIndex(index);
         if (p == null) {
             return -1;
         }
@@ -160,6 +185,19 @@ public class LinkedList {
         int value = p.getNext().getInfo();
         p.setNext(p.getNext().getNext());
         return value;
+    }
+    
+    public void sort(){
+        if (head == tail) return;
+        for (DataNode i = head; i != null; i = i.getNext()){
+            for (DataNode j = i.getNext(); j != null; j = j.getNext()){
+                if (i.getInfo() > j.getInfo()){
+                    int tem = i.getInfo();
+                    i.setInfo(j.getInfo());
+                    j.setInfo(tem);
+                }
+            }
+        }
     }
 
     public void traverse() {
