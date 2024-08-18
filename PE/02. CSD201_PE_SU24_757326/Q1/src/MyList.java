@@ -108,7 +108,7 @@ public class MyList {
         head.next = nx;
         nx.next = ny;
         ny.next = tmp;
-        insertIndex(nz, 4);
+        insertIndex(nz, 5);
         //------------------------------------------------------------------------------------
         ftraverse(f);
         f.close();
@@ -116,10 +116,12 @@ public class MyList {
 
     void insertIndex(Node n, int pos) {
         Node cur = head;
-        int count = 0;
-        while (cur != null && count < pos) {
-            cur = cur.next;
-            count++;
+        int index = 0;
+        while (cur != null) {
+            if (cur.next != null && index != pos - 1) {
+                cur = cur.next;
+                index++;
+            }
         }
         Node tmp = cur.next;
         cur.next = n;
@@ -149,19 +151,19 @@ public class MyList {
         ftraverse(f);
         f.close();
     }
-    
-    Node searchNode(String place){
+
+    Node searchNode(String place) {
         Node c = head;
-        while (c != null){
-            if (c.info.place.equals(place)){
+        while (c != null) {
+            if (c.info.place.equals(place)) {
                 return c;
             }
             c = c.next;
         }
         return null;
     }
-    
-    void swap(Node n1, Node n2){
+
+    void swap(Node n1, Node n2) {
         Brick temp = n1.info;
         n1.info = n2.info;
         n2.info = temp;
@@ -182,10 +184,53 @@ public class MyList {
         /*You must keep statements pre-given in this function.
        Your task is to insert statements here, just after this comment,
        to complete the question in the exam paper.*/
-
+        sort(0, 4);
         //------------------------------------------------------------------------------------
         ftraverse(f);
         f.close();
     }
 
+    int findIndex(String place) {
+        int index = 0;
+        Node cur = head;
+        while (cur != null) {
+            if (cur.info.place.equals(place)) {
+                break;
+            }
+            index++;
+            cur = cur.next;
+        }
+        return index;
+    }
+    
+    Node findNodeIndex(int k){
+        int index = 0;
+        Node cur = head;
+        while (cur != null){
+            if (index ==k){
+                return cur;
+            }
+            index++;
+            cur = cur.next;
+        }
+        return null;
+    }
+    
+    void sort(int k, int h){
+        Node u = findNodeIndex(k);
+        Node v = findNodeIndex(h);
+        Node pi = u;
+        while (pi != v){
+            Node pj = pi.next;
+            while (pj != v){
+                if (pi.info.type > pj.info.type){
+                    Brick temp = pi.info;
+                    pi.info = pj.info;
+                    pj.info = temp;
+                }
+                pj = pj.next;
+            }
+            pi = pi.next;
+        }
+    }
 }
