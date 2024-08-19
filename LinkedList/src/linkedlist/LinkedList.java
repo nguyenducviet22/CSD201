@@ -163,6 +163,29 @@ public class LinkedList {
         return count;
     }
 
+//    int getIndexByWhile(int value) {
+//        int count = 0;
+//        Node cur = head;
+//        while (cur != null) {
+//            if (cur.value == value) {
+//                break;
+//            }
+//            count++;
+//            cur = cur.next;
+//        }
+//        return count;
+//    }
+//
+//    int getIndexByFor(int value) {
+//        int count = 0;
+//        for (Node cur = head; cur != null; cur = cur.next) {
+//            if (cur.value == value) {
+//                break;
+//            } else count++;
+//        }
+//        return count;
+//    }
+
     Node pos(int k) {
         int i = 0;
         Node p = head;
@@ -176,7 +199,7 @@ public class LinkedList {
         return null;
     }
 
-    void sortFromKToH(int k, int h) {
+    void sortFromKToHByWhile(int k, int h) {
         if (k > h) {
             return;
         }
@@ -204,6 +227,20 @@ public class LinkedList {
             pi = pi.next;
         }
     }
+    
+    void sortFromKToHByFor(int k, int h){
+        Node nk = pos(k);
+        Node nh = pos(h+1);
+        for (Node pi = nk; pi != nk; pi = pi.next){
+            for(Node pj = nh; pj != nh; pj = pj.next){
+                if (pi.value > pj.value){
+                    int temp = pi.value;
+                    pi.value = pj.value;
+                    pj.value = temp;
+                }
+            }
+        }
+    }
 
     void display() {
         Node cur = head;
@@ -222,6 +259,9 @@ public class LinkedList {
         ll.addLast(2);
         ll.addLast(1);
         ll.addIndex(4, 3);
+        ll.addLast(9);
+        ll.addLast(7);
+        ll.addLast(8);
         System.out.println("List of numbers: ");
         ll.display();
 //        int x = ll.deleteLast();
@@ -249,8 +289,12 @@ public class LinkedList {
 //        ll.sortLastKNodes(4);
 //        System.out.println("Sorted list: ");
 //        ll.display();
-
-        ll.sortFromKToH(1, 4);
+//
+        ll.sortFromKToHByWhile(1, 7);
+        System.out.println("Sorted list: ");
+        ll.display();
+        
+        ll.sortFromKToHByFor(1, 7);
         System.out.println("Sorted list: ");
         ll.display();
     }

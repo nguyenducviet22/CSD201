@@ -53,22 +53,25 @@ public class MyList {
    Khong su dung tieng Viet co dau de viet ghi chu.
    Neu dung khi chay truc tiep se bao loi va nhan 0 diem
      */
-    void addLast(String xPlace, int xPrice, int xType) {
+    void addLast(String xPlace, int xWeight, int xColor) { //f1
         //You should write here appropriate statements to complete this function.
-        Brick b = new Brick(xPlace, xPrice, xType);
-        Node n = new Node(b);
-        if (xPlace.charAt(0) == 'A') {
+        //--------------------------------------------------------
+        Node node = new Node(new Bike(xPlace, xWeight, xColor));
+        if (xWeight < 0) {
             return;
         }
         if (isEmpty()) {
-            head = tail = n;
+            head = tail = node;
         } else {
-            tail.next = n;
-            tail = n;
+            tail.next = node;
+            tail = node;
         }
+        //---------------------------------------------------------
     }
 
-    //You do not need to edit this function. Your task is to complete the addLast function above only.
+    //==================================================================
+    //You do not need to edit this function. Your task is to complete 
+    //the addLast function above only.
     void f1() throws Exception {
         clear();
         loadData(1);
@@ -93,39 +96,15 @@ public class MyList {
         }
         RandomAccessFile f = new RandomAccessFile(fname, "rw");
         ftraverse(f);
-        Brick x, y, z;
-        x = new Brick("X", 1, 2);
-        y = new Brick("Y", 2, 3);
-        z = new Brick("Z", 3, 4);
         //------------------------------------------------------------------------------------
         /*You must keep statements pre-given in this function.
-       Your task is to insert statements here, just after this comment,
-       to complete the question in the exam paper.*/
-        Node nx = new Node(x);
-        Node ny = new Node(y);
-        Node nz = new Node(z);
-        Node tmp = head.next;
-        head.next = nx;
-        nx.next = ny;
-        ny.next = tmp;
-        insertIndex(nz, 5);
+        Your task is to insert statements here, just after this comment,
+        to complete the question in the exam paper.*/
+        head = head.next.next.next;
+
         //------------------------------------------------------------------------------------
         ftraverse(f);
         f.close();
-    }
-
-    void insertIndex(Node n, int pos) {
-        Node cur = head;
-        int index = 0;
-        while (cur != null) {
-            if (cur.next != null && index != pos - 1) {
-                cur = cur.next;
-                index++;
-            }
-        }
-        Node tmp = cur.next;
-        cur.next = n;
-        n.next = tmp;
     }
 
 //==================================================================
@@ -141,32 +120,29 @@ public class MyList {
         ftraverse(f);
         //------------------------------------------------------------------------------------
         /*You must keep statements pre-given in this function.
-       Your task is to insert statements here, just after this comment,
-       to complete the question in the exam paper.*/
-//        swap();
-        Node n1 = searchNode("E");
-        Node n2 = searchNode("G");
-        swap(n1, n2);
+        Your task is to insert statements here, just after this comment,
+        to complete the question in the exam paper.*/
+        move(3);
         //------------------------------------------------------------------------------------
         ftraverse(f);
         f.close();
     }
 
-    Node searchNode(String place) {
-        Node c = head;
-        while (c != null) {
-            if (c.info.place.equals(place)) {
-                return c;
+    void move(int pos) {
+        int count = 1;
+        Node cur = head;
+        Node temp = new Node();
+        while (cur != null) {
+            if (count == pos - 1) {
+                temp = cur.next;
+                cur.next = cur.next.next;
             }
-            c = c.next;
+            count++;
+            cur = cur.next;
         }
-        return null;
-    }
-
-    void swap(Node n1, Node n2) {
-        Brick temp = n1.info;
-        n1.info = n2.info;
-        n2.info = temp;
+        tail.next = temp;
+        temp.next = null;
+        tail = temp;
     }
 
 //==================================================================
@@ -182,55 +158,32 @@ public class MyList {
         ftraverse(f);
         //------------------------------------------------------------------------------------
         /*You must keep statements pre-given in this function.
-       Your task is to insert statements here, just after this comment,
-       to complete the question in the exam paper.*/
-        sort(0, findIndex());
+        Your task is to insert statements here, just after this comment,
+        to complete the question in the exam paper.*/
+
+        //------------------------------------------------------------------------------------
+        f.close();
+    }
+
+//==================================================================
+    void f5() throws Exception {
+        clear();
+        loadData(17);
+        String fname = "f5.txt";
+        File g123 = new File(fname);
+        if (g123.exists()) {
+            g123.delete();
+        }
+        RandomAccessFile f = new RandomAccessFile(fname, "rw");
+        ftraverse(f);
+        //------------------------------------------------------------------------------------
+        /*You must keep statements pre-given in this function.
+        Your task is to insert statements here, just after this comment,
+        to complete the question in the exam paper.*/
+
         //------------------------------------------------------------------------------------
         ftraverse(f);
         f.close();
     }
 
-    int findIndex() {
-        int index = 0;
-        Node cur = head;
-        while (cur != null) {
-            if (cur.info.place.equals("I")) {
-                break;
-            }
-            index++;
-            cur = cur.next;
-        }
-        return index;
-    }
-
-    Node findNodeIndex(int k) {
-        int index = 0;
-        Node cur = head;
-        while (cur != null) {
-            if (index == k) {
-                return cur;
-            }
-            index++;
-            cur = cur.next;
-        }
-        return null;
-    }
-
-    void sort(int k, int h) {
-        Node u = findNodeIndex(k);
-        Node v = findNodeIndex(h);
-        Node pi = u;
-        while (pi != v) {
-            Node pj = pi.next;
-            while (pj != v) {
-                if (pi.info.type > pj.info.type) {
-                    Brick temp = pi.info;
-                    pi.info = pj.info;
-                    pj.info = temp;
-                }
-                pj = pj.next;
-            }
-            pi = pi.next;
-        }
-    }
 }
