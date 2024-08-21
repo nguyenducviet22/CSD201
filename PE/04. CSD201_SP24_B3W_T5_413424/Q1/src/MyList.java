@@ -53,25 +53,25 @@ public class MyList {
    Khong su dung tieng Viet co dau de viet ghi chu.
    Neu dung khi chay truc tiep se bao loi va nhan 0 diem
      */
-    void addLast(String xPlace, int xWeight, int xColor) { //f1
+    void addLast(String xProducer, int xWeight, int xPrice) { //f1
         //You should write here appropriate statements to complete this function.
         //--------------------------------------------------------
-        Node node = new Node(new Bike(xPlace, xWeight, xColor));
-        if (xWeight < 0) {
-            return;
+
+        if (xWeight > 3 && xPrice > 3) {
+            Node node = new Node(new Laptop(xProducer, xWeight, xPrice));
+            if (isEmpty()) {
+                head = tail = node;
+            } else {
+                tail.next = node;
+                tail = node;
+            }
         }
-        if (isEmpty()) {
-            head = tail = node;
-        } else {
-            tail.next = node;
-            tail = node;
-        }
+
         //---------------------------------------------------------
     }
 
     //==================================================================
-    //You do not need to edit this function. Your task is to complete 
-    //the addLast function above only.
+    //You do not need to edit this function. Your task is to complete the addLast function above only.
     void f1() throws Exception {
         clear();
         loadData(1);
@@ -96,12 +96,16 @@ public class MyList {
         }
         RandomAccessFile f = new RandomAccessFile(fname, "rw");
         ftraverse(f);
+        Node v = new Node(new Laptop("V", 8, 9));
+        Node w = new Node(new Laptop("W", 6, 7));
         //------------------------------------------------------------------------------------
         /*You must keep statements pre-given in this function.
         Your task is to insert statements here, just after this comment,
         to complete the question in the exam paper.*/
-        head = head.next.next.next;
-
+        v.next = head;
+        head = v;
+        tail.next = w;
+        tail = w;
         //------------------------------------------------------------------------------------
         ftraverse(f);
         f.close();
@@ -122,27 +126,36 @@ public class MyList {
         /*You must keep statements pre-given in this function.
         Your task is to insert statements here, just after this comment,
         to complete the question in the exam paper.*/
-        move(3);
+        delete();
         //------------------------------------------------------------------------------------
         ftraverse(f);
         f.close();
     }
 
-    void move(int pos) {
-        int count = 1;
+    int findMaxWeight() {
         Node cur = head;
-        Node temp = new Node();
+        int max = head.info.weight;
         while (cur != null) {
-            if (count == pos - 1) {
-                temp = cur.next;
-                cur.next = cur.next.next;
+            if (cur.info.weight > max) {
+                max = cur.info.weight;
             }
-            count++;
             cur = cur.next;
         }
-        tail.next = temp;
-        temp.next = null;
-        tail = temp;
+        return max;
+    }
+
+    void delete() {
+        int maxWeight = findMaxWeight();
+        int count = 0;
+        for (Node cur = head; cur != null; cur = cur.next) {
+            if (cur.next != null && cur.next.info.weight == maxWeight) {
+                count++;
+            }
+            if (count == 1) {
+                cur.next = cur.next.next;
+                count++;
+            }
+        }
     }
 
 //==================================================================
@@ -156,21 +169,25 @@ public class MyList {
         }
         RandomAccessFile f = new RandomAccessFile(fname, "rw");
         ftraverse(f);
+        int result = countNode();
         //------------------------------------------------------------------------------------
         /*You must keep statements pre-given in this function.
         Your task is to insert statements here, just after this comment,
         to complete the question in the exam paper.*/
-        f.writeBytes(countColor() + "");
+
+        // hint: you should create a function named "countNode()",  
+        // then just call "result = this.countNode()" to complete this requirement 
         //------------------------------------------------------------------------------------
+        f.writeBytes(result + "");
         f.close();
     }
-
-    int countColor() {
+    
+    int countNode(){
+        Node cur = head;
         int count = 0;
-        for (Node cur = head; cur != null; cur = cur.next) {
-            if (cur.info.color > 0) {
-                count++;
-            }
+        while (cur != null){
+            count++;
+            cur = cur.next;
         }
         return count;
     }
@@ -190,7 +207,7 @@ public class MyList {
         /*You must keep statements pre-given in this function.
         Your task is to insert statements here, just after this comment,
         to complete the question in the exam paper.*/
-        head = head.next;
+        head = head.next.next;
         sort();
         //------------------------------------------------------------------------------------
         ftraverse(f);
@@ -200,8 +217,8 @@ public class MyList {
     void sort(){
         for (Node pi = head; pi != null; pi = pi.next){
             for (Node pj = pi.next; pj != null; pj = pj.next){
-                if (pi.info.weight < pj.info.weight){
-                    Bike temp = pi.info;
+                if (pi.info.weight > pj.info.weight){
+                    Laptop temp = pi.info;
                     pi.info = pj.info;
                     pj.info = temp;
                 }

@@ -2,23 +2,30 @@
    YOUR TASK IS TO COMPLETE THE PART  (2)  ONLY
  */
 //(1)==============================================================
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-public class MyList {
+public class BSTree {
 
-    Node head, tail;
+    Node root;
 
-    MyList() {
-        head = tail = null;
+    BSTree() {
+        root = null;
     }
 
     boolean isEmpty() {
-        return (head == null);
+        return (root == null);
     }
 
     void clear() {
-        head = tail = null;
+        root = null;
+    }
+
+    void visit(Node p) {
+        System.out.print("p.info: ");
+        if (p != null) {
+            System.out.println(p.info + " ");
+        }
     }
 
     void fvisit(Node p, RandomAccessFile f) throws Exception {
@@ -27,13 +34,50 @@ public class MyList {
         }
     }
 
-    void ftraverse(RandomAccessFile f) throws Exception {
-        Node p = head;
-        while (p != null) {
-            fvisit(p, f); // You will use this statement to write information of the node p to the file
-            p = p.next;
+    void breadth(Node p, RandomAccessFile f) throws Exception {
+        if (p == null) {
+            return;
         }
-        f.writeBytes("\r\n");
+        Queue q = new Queue();
+        q.enqueue(p);
+        Node r;
+        while (!q.isEmpty()) {
+            r = q.dequeue();
+            fvisit(r, f);
+            if (r.left != null) {
+                q.enqueue(r.left);
+            }
+            if (r.right != null) {
+                q.enqueue(r.right);
+            }
+        }
+    }
+
+    void preOrder(Node p, RandomAccessFile f) throws Exception {
+        if (p == null) {
+            return;
+        }
+        fvisit(p, f);
+        preOrder(p.left, f);
+        preOrder(p.right, f);
+    }
+
+    void inOrder(Node p, RandomAccessFile f) throws Exception {
+        if (p == null) {
+            return;
+        }
+        inOrder(p.left, f);
+        fvisit(p, f);
+        inOrder(p.right, f);
+    }
+
+    void postOrder(Node p, RandomAccessFile f) throws Exception {
+        if (p == null) {
+            return;
+        }
+        postOrder(p.left, f);
+        postOrder(p.right, f);
+        fvisit(p, f);
     }
 
     void loadData(int k) { //do not edit this function
@@ -42,36 +86,25 @@ public class MyList {
         int[] c = Lib.readLineToIntArray("data.txt", k + 2);
         int n = a.length;
         for (int i = 0; i < n; i++) {
-            addLast(a[i], b[i], c[i]);
+            insert(a[i], b[i], c[i]);
         }
     }
 
 //===========================================================================
 //(2)===YOU CAN EDIT OR EVEN ADD NEW FUNCTIONS IN THE FOLLOWING PART========
 //===========================================================================
-/* 
-   Khong su dung tieng Viet co dau de viet ghi chu.
-   Neu dung khi chay truc tiep se bao loi va nhan 0 diem
-     */
-    void addLast(String xPlace, int xWeight, int xColor) { //f1
-        //You should write here appropriate statements to complete this function.
-        //--------------------------------------------------------
-        Node node = new Node(new Bike(xPlace, xWeight, xColor));
-        if (xWeight < 0) {
-            return;
-        }
-        if (isEmpty()) {
-            head = tail = node;
-        } else {
-            tail.next = node;
-            tail = node;
-        }
-        //---------------------------------------------------------
+    void insert(String xPlace, int xWeight, int xColor) {
+		//---------------------------------------
+		/*You must keep statements pre-given in this function.
+        Your task is to insert statements here, just after this comment,
+        to complete the question in the exam paper.*/
+		
+		
+		
+        //--------------------------------------- 
     }
 
-    //==================================================================
-    //You do not need to edit this function. Your task is to complete 
-    //the addLast function above only.
+//Do not edit this function. Your task is to complete insert function above only.
     void f1() throws Exception {
         clear();
         loadData(1);
@@ -81,11 +114,14 @@ public class MyList {
             g123.delete();
         }
         RandomAccessFile f = new RandomAccessFile(fname, "rw");
-        ftraverse(f);
+        breadth(root, f);
+        f.writeBytes("\r\n");
+        inOrder(root, f);
+        f.writeBytes("\r\n");
         f.close();
     }
 
-//==================================================================
+//=============================================================
     void f2() throws Exception {
         clear();
         loadData(5);
@@ -95,19 +131,21 @@ public class MyList {
             g123.delete();
         }
         RandomAccessFile f = new RandomAccessFile(fname, "rw");
-        ftraverse(f);
+        breadth(root, f);
+        f.writeBytes("\r\n");
         //------------------------------------------------------------------------------------
         /*You must keep statements pre-given in this function.
         Your task is to insert statements here, just after this comment,
         to complete the question in the exam paper.*/
-        head = head.next.next.next;
+
+       
 
         //------------------------------------------------------------------------------------
-        ftraverse(f);
+        f.writeBytes("\r\n");
         f.close();
     }
+//=============================================================
 
-//==================================================================
     void f3() throws Exception {
         clear();
         loadData(9);
@@ -117,35 +155,20 @@ public class MyList {
             g123.delete();
         }
         RandomAccessFile f = new RandomAccessFile(fname, "rw");
-        ftraverse(f);
         //------------------------------------------------------------------------------------
         /*You must keep statements pre-given in this function.
         Your task is to insert statements here, just after this comment,
         to complete the question in the exam paper.*/
-        move(3);
+
+        
+		
+
         //------------------------------------------------------------------------------------
-        ftraverse(f);
+        f.writeBytes("\r\n");
         f.close();
     }
 
-    void move(int pos) {
-        int count = 1;
-        Node cur = head;
-        Node temp = new Node();
-        while (cur != null) {
-            if (count == pos - 1) {
-                temp = cur.next;
-                cur.next = cur.next.next;
-            }
-            count++;
-            cur = cur.next;
-        }
-        tail.next = temp;
-        temp.next = null;
-        tail = temp;
-    }
-
-//==================================================================
+//=============================================================
     void f4() throws Exception {
         clear();
         loadData(13);
@@ -155,27 +178,22 @@ public class MyList {
             g123.delete();
         }
         RandomAccessFile f = new RandomAccessFile(fname, "rw");
-        ftraverse(f);
+        preOrder(root, f);
+        f.writeBytes("\r\n");
         //------------------------------------------------------------------------------------
         /*You must keep statements pre-given in this function.
         Your task is to insert statements here, just after this comment,
         to complete the question in the exam paper.*/
-        f.writeBytes(countColor() + "");
+
+       
+	   
+
         //------------------------------------------------------------------------------------
+        f.writeBytes("\r\n");
         f.close();
     }
+//=============================================================
 
-    int countColor() {
-        int count = 0;
-        for (Node cur = head; cur != null; cur = cur.next) {
-            if (cur.info.color > 0) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-//==================================================================
     void f5() throws Exception {
         clear();
         loadData(17);
@@ -185,28 +203,21 @@ public class MyList {
             g123.delete();
         }
         RandomAccessFile f = new RandomAccessFile(fname, "rw");
-        ftraverse(f);
+        inOrder(root, f);
+        f.writeBytes("\r\n");
+        int result = 0;
         //------------------------------------------------------------------------------------
         /*You must keep statements pre-given in this function.
         Your task is to insert statements here, just after this comment,
         to complete the question in the exam paper.*/
-        head = head.next;
-        sort();
+        
+        // hint: you should create a function named "countNode()",  
+        // then just call "result = this.countNode()" to complete this requirement 
+        
+        
+        
         //------------------------------------------------------------------------------------
-        ftraverse(f);
+        f.writeBytes(result + "\r\n");
         f.close();
     }
-    
-    void sort(){
-        for (Node pi = head; pi != null; pi = pi.next){
-            for (Node pj = pi.next; pj != null; pj = pj.next){
-                if (pi.info.weight < pj.info.weight){
-                    Bike temp = pi.info;
-                    pi.info = pj.info;
-                    pj.info = temp;
-                }
-            }
-        }
-    }
-
 }
