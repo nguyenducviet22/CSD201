@@ -49,32 +49,83 @@ public class BSTree {
             dad.right = node;
         }
     }
-    
-    public void preOrder(Node p){//???
-        if (p == null) return;
+
+    public void preOrder(Node p) {//???
+        if (p == null) {
+            return;
+        }
         System.out.print(p.value + " ");
         preOrder(p.left);
         preOrder(p.right);
     }
-    
-    public void preOrder(){
+
+    public void preOrder() {
         preOrder(root);
+        System.out.println("");
     }
-    
-    public void breadthFirst(){
-        if (root == null) return;
+
+    public void breadthFirst() {
+        if (root == null) {
+            return;
+        }
         Queue queue = new Queue();
         queue.enqueue(root);
         Node cur;
-        while (!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             cur = queue.dequeue();
-            if (cur.left != null){
+            if (cur.left != null) {
                 queue.enqueue(cur.left);
             }
-            if (cur.right != null){
+            if (cur.right != null) {
                 queue.enqueue(cur.right);
             }
-            System.out.println(cur.value + " ");
+            System.out.print(cur.value + " ");
+        }
+        System.out.println("");
+    }
+
+    public void deleteByCopying(Node node) {
+        Node rightMost = node.left, par = null;
+        while (rightMost.right != null) {
+            par = rightMost;
+            rightMost = rightMost.right;
+        }
+        node.value = rightMost.value;
+        if (rightMost.right == null) {
+            node.left = rightMost.left;
+        } else {
+            par.right = rightMost.left;
+        }
+    }
+
+    public Node searchParent(Node node) {
+        if (node == null) {
+            return null;
+        }
+        Node cur = root, par = null;
+        while (cur != null && cur != node) {
+            par = cur;
+            if (cur.value > node.value) {
+                cur = cur.left;
+            } else {
+                cur = cur.right;
+            }
+        }
+        return par;
+    }
+
+    public void deleteByMerging(Node node) {
+        Node rightMost = node.left, par = searchParent(node);
+        while (rightMost != null){
+            rightMost = rightMost.right;
+        }
+        rightMost.right = node.right;
+        if (par == null){
+            root = node.left;
+        } else if (par.left == node){
+            par.left = node.left;
+        } else {
+            par.right = node.left; 
         }
     }
 
@@ -88,7 +139,15 @@ public class BSTree {
         bst.insert(7);
         bst.insert(6);
         bst.insert(9);
-        
+        Node trNode = new Node(3);
+
+        System.out.println("PreOrder Traversal: ");
         bst.preOrder();
+        System.out.println("Breadth-First Traversal: ");
+        bst.breadthFirst();
+        System.out.println("Delete by copying: ");
+        bst.deleteByCopying(bst.searchParent(trNode));
+        System.out.println("Delete by merging: ");
+        bst.deleteByMerging(trNode);
     }
 }
