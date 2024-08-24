@@ -116,17 +116,81 @@ public class BSTree {
 
     public void deleteByMerging(Node node) {
         Node rightMost = node.left, par = searchParent(node);
-        while (rightMost != null){
+        while (rightMost != null) {
             rightMost = rightMost.right;
         }
         rightMost.right = node.right;
-        if (par == null){
+        if (par == null) {
             root = node.left;
-        } else if (par.left == node){
+        } else if (par.left == node) {
             par.left = node.left;
         } else {
-            par.right = node.left; 
+            par.right = node.left;
         }
+    }
+
+    public void delete(Node node) {
+        if (isEmpty()) {
+            return;
+        }
+        Node cur = root, par = null;
+        while (cur != null) {
+            if (cur.value == node.value) {
+                break;
+            }
+            par = cur;
+            if (cur.value > node.value) {
+                cur = cur.left;
+            } else {
+                cur = cur.right;
+            }
+        }
+
+        //No child
+        if (cur.left == null && cur.right == null) {
+            if (par == null) {
+                root = null;
+                return;
+            }
+            if (par.left == cur) {
+                par.left = null;
+            } else {
+                par.right = null;
+            }
+        }
+        
+        //1 child
+        if (cur.left != null && cur.right == null){
+            if (par == null){
+                root = cur.left;
+                return;
+            }
+            if (par.left == cur){
+                par.left = cur.left;
+            } else {
+                par.right = cur.left;
+            }
+        } else if (cur.left == null && cur.right != null){
+            if (par == null){
+                root = cur.right;
+                return;
+            }
+            if (par.left == cur){
+                par.left = cur.right;
+            } else {
+                par.right = cur.right;
+            }
+        }
+    }
+    
+    Node rotateLeft(Node node){
+        if (node == null || node.right == null){
+            return node;
+        }
+        Node temp = node.right;
+        node.right = temp.left;
+        temp.left = node;
+        return temp;
     }
 
     public static void main(String[] args) {

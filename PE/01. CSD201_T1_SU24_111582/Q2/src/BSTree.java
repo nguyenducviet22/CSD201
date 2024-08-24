@@ -96,10 +96,34 @@ public class BSTree {
     void insert(String xPlace, int xWeight, int xColor) {
         //You should insert here statements to complete this function
         //---------------------------------------
-        
-		
-		
-	//---------------------------------------
+        if (xPlace.charAt(0) == 'F') {
+            return;
+        }
+        Node node = new Node(new Dog(xPlace, xWeight, xColor));
+        if (isEmpty()) {
+            root = node;
+            return;
+        }
+        Node cur = root;
+        Node par = null;
+        while (cur != null) {
+            if (cur.info.weight == node.info.weight) {
+                return;
+            }
+            par = cur;
+            if (cur.info.weight > node.info.weight) {
+                cur = cur.left;
+            } else {
+                cur = cur.right;
+            }
+        }
+        if (par.info.weight > node.info.weight) {
+            par.left = node;
+        } else {
+            par.right = node;
+        }
+
+        //---------------------------------------
     }
 
 //Do not edit this function. Your task is to complete insert function above only.
@@ -133,12 +157,21 @@ public class BSTree {
         f.writeBytes("\r\n");
         //You should insert here statements to complete this function
         //---------------------------------------
-        
-		
-		
+        preOrder2(root, f);
         //---------------------------------------
         f.writeBytes("\r\n");
         f.close();
+    }
+
+    void preOrder2(Node p, RandomAccessFile f) throws Exception {
+        if (p == null) {
+            return;
+        }
+        if (p.info.color < 8) {
+            fvisit(p, f);
+        }
+        preOrder2(p.left, f);
+        preOrder2(p.right, f);
     }
 //=============================================================
 
@@ -153,10 +186,8 @@ public class BSTree {
         RandomAccessFile f = new RandomAccessFile(fname, "rw");
         //You should insert here statements to complete this function
         //---------------------------------------
-        
-		
-		
-	//---------------------------------------
+
+        //---------------------------------------
         f.writeBytes("\r\n");
         f.close();
     }
@@ -175,10 +206,8 @@ public class BSTree {
         f.writeBytes("\r\n");
         //You should insert here statements to complete this function
         //---------------------------------------
-        
-		
-		
-	//---------------------------------------
+
+        //---------------------------------------
         f.writeBytes("\r\n");
         f.close();
     }
@@ -195,19 +224,15 @@ public class BSTree {
         RandomAccessFile f = new RandomAccessFile(fname, "rw");
         inOrder(root, f);
         f.writeBytes("\r\n");
-       
+
         /*You must keep statements pre-given in this function.
         Your task is to insert statements here, just after this comment,
         to complete the question in the exam paper.*/
-	//---------------------------------------
-        
+        //---------------------------------------
         // hint: you should create a function to count the leaf nodes
         // named countLeaf(...)
         // then call int k = this.countLeaf(...)
         // finally, use f.writeBytes(k + "\r\n") to write the result
-        
-        
-		
         //---------------------------------------
         f.close();
     }
