@@ -213,7 +213,9 @@ public class BSTree {
         /*You must keep statements pre-given in this function.
       Your task is to insert statements here, just after this comment,
       to complete the question in the exam paper.*/
-
+        preOrder3(root);
+        Node par = searchParent(findNode);
+        rotateLeft(findNode, par);
         //------------------------------------------------------------------------------------
         breadth(root, f);
         f.writeBytes("\r\n");
@@ -223,29 +225,49 @@ public class BSTree {
     Node findNode = null;
     int count = 0;
 
-    void preOrder3(Node p, RandomAccessFile f) throws Exception {
-        if (p == null) {
+    void preOrder3(Node node) {
+        if (node == null) {
             return;
         }
-        fvisit(p, f);
-        if (p.right != null) {
+        if (node.right != null) {
             count++;
+            if (count == 3) {
+                findNode = node;
+            }
         }
-        if (count == 3) {
-            findNode = p;
-        }
-        preOrder2(p.left, f);
-        preOrder2(p.right, f);
+        preOrder3(node.left);
+        preOrder3(node.right);
     }
 
-    Node rotateLeft(Node node){
-        if (node == null || node.right == null){
-            return node;
+    Node searchParent(Node node) {
+        if (node == null) {
+            return null;
+        }
+        Node cur = root, par = null;
+        while (cur != null && cur != node) {
+            par = cur;
+            if (cur.info.type > node.info.type) {
+                cur = cur.left;
+            } else {
+                cur = cur.right;
+            }
+        }
+        return par;
+    }
+
+    void rotateLeft(Node node, Node par) {
+        if (node == null || node.right == null) {
+            return;
         }
         Node temp = node.right;
         node.right = temp.left;
         temp.left = node;
-        return temp;
+
+        if (par.right == node) {
+            par.right = temp;
+        } else {
+            par.left = temp;
+        }
     }
 
 }

@@ -186,10 +186,19 @@ public class BSTree {
         RandomAccessFile f = new RandomAccessFile(fname, "rw");
         //You should insert here statements to complete this function
         //---------------------------------------
-
+        traverseDesc(root, f);
         //---------------------------------------
         f.writeBytes("\r\n");
         f.close();
+    }
+
+    void traverseDesc(Node p, RandomAccessFile f) throws Exception {
+        if (p == null) {
+            return;
+        }
+        traverseDesc(p.right, f);
+        fvisit(p, f);
+        traverseDesc(p.left, f);
     }
 //=============================================================
 
@@ -206,10 +215,21 @@ public class BSTree {
         f.writeBytes("\r\n");
         //You should insert here statements to complete this function
         //---------------------------------------
-
+        fvisit(findRightMostNode(), f);
         //---------------------------------------
         f.writeBytes("\r\n");
         f.close();
+    }
+
+    Node findRightMostNode() {
+        Node cur = root;
+        while (cur != null) {
+            if (cur.right == null) {
+                return cur;
+            }
+            cur = cur.right;
+        }
+        return null;
     }
 //=============================================================
 
@@ -233,7 +253,22 @@ public class BSTree {
         // named countLeaf(...)
         // then call int k = this.countLeaf(...)
         // finally, use f.writeBytes(k + "\r\n") to write the result
+        int k = this.countLeaf(root);
+        f.writeBytes(k + "\r\n");
         //---------------------------------------
         f.close();
+    }
+
+    int count = 0;
+    int countLeaf(Node node) {
+        if (node == null) {
+            return 0;
+        }
+        if (node.left == null && node.right == null) {
+            count++;
+        }
+        countLeaf(node.left);
+        countLeaf(node.right);
+        return count;
     }
 }
