@@ -190,11 +190,95 @@ public class BSTree {
         /*You must keep statements pre-given in this function.
       Your task is to insert statements here, just after this comment,
       to complete the question in the exam paper.*/
-
+        inOrder(root);
+        deleteByCopying(findNodeF3);
         //------------------------------------------------------------------------------------
-        breadth(root, f);
+         breadth(root, f);
         f.writeBytes("\r\n");
         f.close();
+    }
+
+    int countF3 = 0;
+    Node findNodeF3 = null;
+
+    void inOrder(Node node) {
+        if (node == null) {
+            return;
+        }
+        inOrder(node.left);
+        if (countF3 == 3) {
+            findNodeF3 = node;
+        }
+        countF3++;
+        inOrder(node.right);
+    }
+
+    void deleteByCopying(Node node) {
+        Node cur = root, par = null;
+        while (cur != null) {
+            if (cur.info == node.info) {
+                break;
+            }
+            par = cur;
+            if (cur.info.type > node.info.type) {
+                cur = cur.left;
+            } else {
+                cur = cur.right;
+            }
+        }
+
+        //No child
+        if (cur.left == null && cur.right == null) {
+            if (par == null) {
+                root = null;
+                return;
+            }
+            if (par.left == cur) {
+                par.left = null;
+            } else {
+                par.right = null;
+            }
+            return;
+        }
+
+        //1 child
+        if (cur.left != null && cur.right == null) {
+            if (par == null) {
+                root = cur.left;
+                return;
+            }
+            if (par.left == cur) {
+                par.left = cur.left;
+            } else {
+                par.right = cur.left;
+            }
+        } else if (cur.left == null && cur.right != null) {
+            if (par == null) {
+                root = cur.right;
+                return;
+            }
+            if (par.left == cur) {
+                par.left = cur.right;
+            } else {
+                par.right = cur.right;
+            }
+            return;
+        }
+        //2 children
+        if (node.left != null && node.right != null) {
+            Node rightMost = node.left;
+            while (rightMost.right != null) {
+                par = rightMost;
+                rightMost = rightMost.right;
+            }
+            node.info = rightMost.info;
+            if (rightMost.right == null) {
+                node.left = rightMost.left;
+            } else {
+                par.right = rightMost.left;
+            }
+            return;
+        }
     }
 
 //=============================================================
@@ -214,25 +298,25 @@ public class BSTree {
       Your task is to insert statements here, just after this comment,
       to complete the question in the exam paper.*/
         preOrder3(root);
-        Node par = searchParent(findNode);
-        rotateLeft(findNode, par);
+        Node par = searchParent(findNodeF4);
+        rotateLeft(findNodeF4, par);
         //------------------------------------------------------------------------------------
         breadth(root, f);
         f.writeBytes("\r\n");
         f.close();
     }
 
-    Node findNode = null;
-    int count = 0;
+    Node findNodeF4 = null;
+    int countF4 = 0;
 
     void preOrder3(Node node) {
         if (node == null) {
             return;
         }
         if (node.right != null) {
-            count++;
-            if (count == 3) {
-                findNode = node;
+            countF4++;
+            if (countF4 == 3) {
+                findNodeF4 = node;
             }
         }
         preOrder3(node.left);
