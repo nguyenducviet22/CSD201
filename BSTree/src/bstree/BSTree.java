@@ -92,7 +92,7 @@ public class BSTree {
         }
         node.value = rightMost.value;
         if (rightMost.right == null) {
-            node.left = rightMost.left;
+            node.left = rightMost.left;//May be wrong, check this line again!!!
         } else {
             par.right = rightMost.left;
         }
@@ -158,33 +158,48 @@ public class BSTree {
                 par.right = null;
             }
         }
-        
+
         //1 child
-        if (cur.left != null && cur.right == null){
-            if (par == null){
+        if (cur.left != null && cur.right == null) {
+            if (par == null) {
                 root = cur.left;
                 return;
             }
-            if (par.left == cur){
+            if (par.left == cur) {
                 par.left = cur.left;
             } else {
                 par.right = cur.left;
             }
-        } else if (cur.left == null && cur.right != null){
-            if (par == null){
+        } else if (cur.left == null && cur.right != null) {
+            if (par == null) {
                 root = cur.right;
                 return;
             }
-            if (par.left == cur){
+            if (par.left == cur) {
                 par.left = cur.right;
             } else {
                 par.right = cur.right;
             }
         }
+
+        //2 children
+        if (node.left != null && node.right != null) {
+            Node rightMost = node.left;
+            while (rightMost.right != null) {
+                par = rightMost;
+                rightMost = rightMost.right;
+            }
+            node.value = rightMost.value;
+            if (rightMost.right == null) {
+                node.left = rightMost.left;
+            } else {
+                par.right = rightMost.left;
+            }
+        }
     }
-    
-    Node rotateLeft(Node node){
-        if (node == null || node.right == null){
+
+    Node rotateLeft(Node node) {
+        if (node == null || node.right == null) {
             return node;
         }
         Node temp = node.right;
