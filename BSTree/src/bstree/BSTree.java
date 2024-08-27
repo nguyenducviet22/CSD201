@@ -84,20 +84,6 @@ public class BSTree {
         System.out.println("");
     }
 
-    public void deleteByCopying(Node node) {
-        Node rightMost = node.left, par = null;
-        while (rightMost.right != null) {
-            par = rightMost;
-            rightMost = rightMost.right;
-        }
-        node.value = rightMost.value;
-        if (rightMost.right == null) {
-            node.left = rightMost.left;//May be wrong, check this line again!!!
-        } else {
-            par.right = rightMost.left;
-        }
-    }
-
     public Node searchParent(Node node) {
         if (node == null) {
             return null;
@@ -129,7 +115,7 @@ public class BSTree {
         }
     }
 
-    public void delete(Node node) {
+    public void deleteByCopying(Node node) { //full 4 cases
         if (isEmpty()) {
             return;
         }
