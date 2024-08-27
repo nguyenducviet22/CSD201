@@ -96,14 +96,33 @@ public class BSTree {
     void insert(String xPlace, int xWeight, int xColor) {
         //You should insert here statements to complete this function
         //---------------------------------------
-		
-		
-		
-		
-		
-		
-		
-		//---------------------------------------        
+        if (xPlace.charAt(0) == 'X') {
+            return;
+        }
+        Node node = new Node(new Bird(xPlace, xWeight, xColor));
+        if (isEmpty()) {
+            root = node;
+            return;
+        }
+        Node cur = root;
+        Node par = null;
+        while (cur != null) {
+            if (cur.info.weight == xWeight) {
+                return;
+            }
+            par = cur;
+            if (cur.info.weight > xWeight) {
+                cur = cur.left;
+            } else {
+                cur = cur.right;
+            }
+        }
+        if (par.info.weight > xWeight) {
+            par.left = node;
+        } else {
+            par.right = node;
+        }
+        //---------------------------------------        
     }
 
 //Do not edit this function. 
@@ -140,16 +159,21 @@ public class BSTree {
         /*You must keep statements pre-given in this function.
         Your task is to insert statements here, just after this comment,
         to complete the question in the exam paper.*/
-
-        
-		
-		
-		
-		
-
+        preOrder2(root.left, f);
         //------------------------------------------------------------------------------------
         f.writeBytes("\r\n");
         f.close();
+    }
+
+    void preOrder2(Node p, RandomAccessFile f) throws Exception {
+        if (p == null) {
+            return;
+        }
+        if (p.info.color > 4) {
+            fvisit(p, f);
+        }
+        preOrder2(p.left, f);
+        preOrder2(p.right, f);
     }
 //=============================================================
 
@@ -166,20 +190,22 @@ public class BSTree {
         /*You must keep statements pre-given in this function.
         Your task is to insert statements here, just after this comment,
         to complete the question in the exam paper.*/
-
-        
-		
-		
-		
-		
-
+        traverseDesc(root, f);
         //------------------------------------------------------------------------------------
         f.writeBytes("\r\n");
         f.close();
     }
 
-//=============================================================
+    void traverseDesc(Node node, RandomAccessFile f) throws Exception {
+        if (node == null) {
+            return;
+        }
+        traverseDesc(node.right, f);
+        fvisit(node, f);
+        traverseDesc(node.left, f);
+    }
 
+//=============================================================
     void f4() throws Exception {
         clear();
         loadData(13);
@@ -195,17 +221,21 @@ public class BSTree {
         /*You must keep statements pre-given in this function.
         Your task is to insert statements here, just after this comment,
         to complete the question in the exam paper.*/
-
-        
-		
-		
-		
-		
-		
-
+        preOrder3(root, f);
         //------------------------------------------------------------------------------------
         f.writeBytes("\r\n");
         f.close();
+    }
+
+    void preOrder3(Node p, RandomAccessFile f) throws Exception {
+        if (p == null) {
+            return;
+        }
+        if (p.left != null || p.right != null) {
+            fvisit(p, f);
+        }
+        preOrder3(p.left, f);
+        preOrder3(p.right, f);
     }
 //=============================================================
 
@@ -225,11 +255,6 @@ public class BSTree {
         Your task is to insert statements here, just after this comment,
         to complete the question in the exam paper.*/
 
-        
-		
-		
-		
-		
         //------------------------------------------------------------------------------------
         f.close();
     }

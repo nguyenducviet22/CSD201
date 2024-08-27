@@ -93,38 +93,33 @@ public class BSTree {
 //===========================================================================
 //(2)===YOU CAN EDIT OR EVEN ADD NEW FUNCTIONS IN THE FOLLOWING PART========
 //===========================================================================
-    void insert(String xPlace, int xWeight, int xColor) {
-        //---------------------------------------
-        /*You must keep statements pre-given in this function.
-        Your task is to insert statements here, just after this comment,
-        to complete the question in the exam paper.*/
-        if (xPlace.charAt(0) == 'N') {
+    void insert(String xMaker, int xVolume, int xColor) {
+        //You should insert here statements to complete this function
+        if (xMaker.charAt(0) == 'A') {
             return;
         }
-        Node node = new Node(new Cat(xPlace, xWeight, xColor));
+        Node node = new Node(new Bottle(xMaker, xVolume, xColor));
         if (isEmpty()) {
             root = node;
-            return;
         }
-        Node cur = root, par = null;
+        Node cur = root;
+        Node par = null;
         while (cur != null) {
-            if (cur.info.weight == xWeight) {
+            if (cur.info.color == xColor) {
                 return;
             }
             par = cur;
-            if (cur.info.weight > xWeight) {
+            if (cur.info.color > xColor) {
                 cur = cur.left;
             } else {
                 cur = cur.right;
             }
         }
-        if (par.info.weight > xWeight) {
+        if (par.info.color > xColor) {
             par.left = node;
         } else {
             par.right = node;
         }
-
-        //--------------------------------------- 
     }
 
 //Do not edit this function. Your task is to complete insert function above only.
@@ -154,13 +149,13 @@ public class BSTree {
             g123.delete();
         }
         RandomAccessFile f = new RandomAccessFile(fname, "rw");
-        breadth(root, f);
+        preOrder(root, f);
         f.writeBytes("\r\n");
         //------------------------------------------------------------------------------------
         /*You must keep statements pre-given in this function.
-        Your task is to insert statements here, just after this comment,
-        to complete the question in the exam paper.*/
-        preOrder2(root.left, f);
+      Your task is to insert statements here, just after this comment,
+      to complete the question in the exam paper.*/
+        preOrder2(root, f);
         //------------------------------------------------------------------------------------
         f.writeBytes("\r\n");
         f.close();
@@ -170,7 +165,7 @@ public class BSTree {
         if (p == null) {
             return;
         }
-        if (p.info.color != 4) {
+        if (p.info.volume < 7) {
             fvisit(p, f);
         }
         preOrder2(p.left, f);
@@ -187,29 +182,108 @@ public class BSTree {
             g123.delete();
         }
         RandomAccessFile f = new RandomAccessFile(fname, "rw");
+        postOrder(root, f);
+        f.writeBytes("\r\n");
         //------------------------------------------------------------------------------------
         /*You must keep statements pre-given in this function.
-        Your task is to insert statements here, just after this comment,
-        to complete the question in the exam paper.*/
-        traverseDesc(root, f);
+      Your task is to insert statements here, just after this comment,
+      to complete the question in the exam paper.*/
+        postOrder(root);
+        deleteByCopying(p);
         //------------------------------------------------------------------------------------
+        postOrder(root, f);
         f.writeBytes("\r\n");
         f.close();
     }
 
-    void traverseDesc(Node p, RandomAccessFile f) throws Exception {
-        if (p == null) {
+    Node p = null;
+    int count = 0;
+
+    void postOrder(Node node) {
+        if (node == null) {
             return;
         }
-        traverseDesc(p.right, f);
-        fvisit(p, f);
-        traverseDesc(p.left, f);
+        postOrder(node.left);
+        postOrder(node.right);
+        if (count == 5) {
+            p = node;
+        }
+        count++;
+    }
+
+    public void deleteByCopying(Node node) {
+        if (isEmpty()) {
+            return;
+        }
+        Node cur = root, par = null;
+        while (cur != null) {
+            if (cur.info == node.info) {
+                break;
+            }
+            par = cur;
+            if (cur.info.color > node.info.color) {
+                cur = cur.left;
+            } else {
+                cur = cur.right;
+            }
+        }
+
+        //No child
+        if (cur.left == null && cur.right == null) {
+            if (par == null) {
+                root = null;
+                return;
+            }
+            if (par.left == cur) {
+                par.left = null;
+            } else {
+                par.right = null;
+            }
+        }
+
+        //1 child
+        if (cur.left != null && cur.right == null) {
+            if (par == null) {
+                root = cur.left;
+                return;
+            }
+            if (par.left == cur) {
+                par.left = cur.left;
+            } else {
+                par.right = cur.left;
+            }
+        } else if (cur.left == null && cur.right != null) {
+            if (par == null) {
+                root = cur.right;
+                return;
+            }
+            if (par.left == cur) {
+                par.left = cur.right;
+            } else {
+                par.right = cur.right;
+            }
+        }
+
+        //2 children
+        if (node.left != null && node.right != null) {
+            Node rightMost = node.left;
+            while (rightMost.right != null) {
+                par = rightMost;
+                rightMost = rightMost.right;
+            }
+            node.info = rightMost.info;
+            if (rightMost.right == null) {
+                node.left = rightMost.left;
+            } else {
+                par.right = rightMost.left;
+            }
+        }
     }
 
 //=============================================================
     void f4() throws Exception {
         clear();
-        loadData(13);
+        loadData(13);;
         String fname = "f4.txt";
         File g123 = new File(fname);
         if (g123.exists()) {
@@ -220,61 +294,44 @@ public class BSTree {
         f.writeBytes("\r\n");
         //------------------------------------------------------------------------------------
         /*You must keep statements pre-given in this function.
-        Your task is to insert statements here, just after this comment,
-        to complete the question in the exam paper.*/
-        preOrder3(root, f);
+      Your task is to insert statements here, just after this comment,
+      to complete the question in the exam paper.*/
+        preOrder4(root);
+        p4.info.volume = preOrder5(p4) + 100;
+
         //------------------------------------------------------------------------------------
+        preOrder(root, f);
         f.writeBytes("\r\n");
         f.close();
     }
-    
-    void preOrder3(Node p, RandomAccessFile f) throws Exception {
-        if (p == null) {
+
+    Node p4 = null;
+    int count4 = 0;
+
+    void preOrder4(Node node) {
+        if (node == null) {
             return;
         }
-        if (p.left == null && p.right == null && p.info.color < 7) {
-            fvisit(p, f);
+        if (node.right != null) {
+            if (count4 == 2) {
+                p4 = node;
+            }
+            count4++;
         }
-        preOrder3(p.left, f);
-        preOrder3(p.right, f);
+        preOrder4(node.left);
+        preOrder4(node.right);
     }
-//=============================================================
 
-    void f5() throws Exception {
-        clear();
-        loadData(17);
-        String fname = "f5.txt";
-        File g123 = new File(fname);
-        if (g123.exists()) {
-            g123.delete();
-        }
-        RandomAccessFile f = new RandomAccessFile(fname, "rw");
-        inOrder(root, f);
-        f.writeBytes("\r\n");
-        int result = 0;
-        //------------------------------------------------------------------------------------
-        /*You must keep statements pre-given in this function.
-        Your task is to insert statements here, just after this comment,
-        to complete the question in the exam paper.*/
+    int count5 = 0;
 
-        // hint: you should create a function named "countNode()",  
-        // then just call "result = this.countNode()" to complete this requirement 
-        result = countNode(root);
-//------------------------------------------------------------------------------------
-        f.writeBytes(result + "\r\n");
-        f.close();
-    }
-    
-    int count = 0;
-    int countNode(Node node){
-        if (node == null){
+    int preOrder5(Node node) {
+        if (node == null) {
             return 0;
         }
-        if (node.left != null || node.right != null){
-            count++;
-        }
-        countNode(node.left);
-        countNode(node.right);
-        return count;
+        count5++;
+        preOrder5(node.left);
+        preOrder5(node.right);
+        return count5;
     }
+
 }
