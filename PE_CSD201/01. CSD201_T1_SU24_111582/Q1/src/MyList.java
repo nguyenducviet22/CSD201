@@ -106,8 +106,7 @@ public class MyList {
         Node v = new Node(new Phone("New", 8, 9));
         //You should write here appropriate statements to complete this function.
         //--------------------------------------------------------
-        insertIndexNode(v, 3);
-        insertIndexPhone(new Phone("New", 8, 9), 3);
+        insertIndexNode(v, 2);
         //---------------------------------------------------------
         ftraverse(f);
         f.close();
@@ -116,7 +115,7 @@ public class MyList {
     void insertIndexNode(Node n, int index) {
         int count = 1;
         Node x = head;
-        while (x != null && count < index - 1) {
+        while (x != null && count != index) {
             x = x.next;
             count++;
         }
@@ -126,17 +125,6 @@ public class MyList {
         Node temp = x.next;
         x.next = n;
         n.next = temp;
-    }
-
-    void insertIndexPhone(Phone p, int index) {
-        int count = 1;
-        Node x = head;
-        while (x != null && count < index - 1) {
-            x = x.next;
-            count++;
-        }
-        Node temp = x.next;
-        x.next = new Node(p, temp);
     }
 
 //==================================================================
@@ -185,14 +173,18 @@ public class MyList {
 
     void removeNode(Node n) {
         Node node = head;
-        while (node != null && node.next != n) {
+        Node pre = null;
+        while (node != null) {
+            if (node == n) {
+                break;
+            }
+            pre = node;
             node = node.next;
         }
         if (node == null) {
             return;
         } else {
-            Node temp = node.next.next;
-            node.next = temp;
+            pre.next = node.next;
         }
         if (node.next == null) {
             tail = node;

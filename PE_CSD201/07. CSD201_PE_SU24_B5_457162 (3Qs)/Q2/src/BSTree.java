@@ -221,7 +221,9 @@ public class BSTree {
         /*You must keep statements pre-given in this function.
       Your task is to insert statements here, just after this comment,
       to complete the question in the exam paper.*/
-        rotateLeft(findNode(), searchF(findNode()));
+        Node pn = findNode();
+        Node fn = searchF(pn);
+        rotateLeft(pn, fn);
         //------------------------------------------------------------------------------------
         breadth(root, f);
         f.writeBytes("\r\n");
@@ -237,12 +239,12 @@ public class BSTree {
     }
 
     Node searchF(Node node) {
+        if (node == null) {
+            return null;
+        }
         Node p = root;
         Node f = null;
         while (p != null && p != node) {
-//            if (p.info == node.info) {
-//                return p;
-//            }
             f = p;
             if (p.info.price > node.info.price) {
                 p = p.left;
@@ -254,12 +256,12 @@ public class BSTree {
     }
 
     void rotateLeft(Node node, Node f) {
-//        if (node == null || node.right == null) {
-//            return;
-//        }
-        Node temp = f.right;
-        f.right = temp.left;
-        temp.left = f;
+        if (node == null || node.right == null) {
+            return;
+        }
+        Node temp = node.right;
+        node.right = temp.left;
+        temp.left = node;
         if (f.right == node) {
             f.right = temp;
         } else {

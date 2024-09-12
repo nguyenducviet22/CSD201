@@ -1,0 +1,139 @@
+01. CSD201_T1_SU24_111582
+	Q1: Linked List
+	f2: Insert into 3rd.
+	f3: Delete the first max weight node.
+	f4: Count price>5.
+	f5: Delete 1st node -> desc by weight.
+
+	Q2: BSTree
+	f2: PreOrder();
+	f3: Traverse desc by weight.
+	f4: Find right-most node.
+	f5: Count leaf nodes.
+
+03. CSD201_PE_SP24_187950 (Paper No 1)
+	Q1: Linked List
+	f2: Delete first 3 nodes.
+	f3: Move 3rd node to the end.
+	f4: Count color>0.
+	f5: Delete 1st node -> desc by weight.
+
+	Q2: BSTree
+	f2: PreOrder();
+	f3: Traverse desc by weight.
+	f4: Print out internal nodes.
+	f5: 
+
+04. CSD201_SP24_B3W_T5_413424
+	Q1: Linked List
+	f2: Insert into the first and the last.
+	f3: Delete the first max weight.
+	f4: Count nodes.
+	f5: Delete 2 first nodes -> asc by weight.
+
+	Q2: BSTree
+	f2: PreOrder();
+	f3: Traverse desc by weight.
+	f4: Print out leaf nodes.
+	f5: Count internal nodes.
+
+06. CSD201_T2_SU24_111587
+	Q1: Linked List
+	f2: Delete the third node.
+	f3: Swap the first vs the last.
+	f4: Delete nodes weight<4
+	f5: Delete the first node -> asc by weight.
+
+	Q2: BSTree
+	f2: PreOrder();
+	f3: Traverse desc by weight
+	f4: Print out internal nodes.
+	f5: Count leaf nodes.
+
+02. CSD201_PE_SU24_757326 (3Qs)
+	Q1: Linked List
+	f2: Insert into 1, 2 and 5 pos.
+	f3: Swap E node vs G node.
+	f4: Sort asc before p.
+
+	Q2: BSTree
+	f2: PreOrder();
+	f3: p = 4th smallest -> delete p by copying
+	f4: p = 3rd node having right child PreOrder() -> rotate p to left.
+
+	Q3: Graph
+	f1: Display deg[3rd-7th] Breadth.
+	f2: Dijkstra's shortest path.
+
+05. CSD201_PE_SP24_917105 (3Qs)
+	Q1: Linked List
+	f2: Insert into 1, 2 and 4 pos.
+	f3: Remove the first max node -> insert into 1 pos.
+	f4: p = 6th -> change info -> sort before p.
+
+	Q2: BSTree
+	f2: PreOrder();
+	f3: p = 6th in PostOrder() -> delete p by copying.
+	f4: p = 3rd having right child in PreOrde() -> count node sub-tree p -> change info.
+
+	Q3: Graph
+	f1: Display deg[3rd-8th] Breadth.
+	f2: Dijkstra's shortest path.
+
+07. CSD201_PE_SU24_B5_457162 (3Qs)
+	Q1: Linked List
+	f2: Insert into the first and the third pos.
+	f3: Remove the second node color<6.
+	f4: Sort the last 4 node asc by color
+
+	Q2: BSTree
+	f2: InOrder();
+	f3: Find p right-most node -> delete p.
+	f4: Find p right-most node -> rotate f (father p) to left.
+
+	Q3: Graph
+	f1: Display deg[2nd-5th] Depth.
+	f2: Dijkstra's shortest path.
+
+08 CSD201_PEQN_SU24_L1_171239 (3Qs)
+	Q1: Linked List
+	f2: Insert into 4th and 6th pos.
+	f3: Find second node rate<6 -> change info.
+	f4: Sort before max node asc by rate.
+
+	Q2: BSTree
+	f2: Breadth();
+	f3: p = 4th in PostOrder() -> delete f (father p) by copying.
+	f4: p = 4th in PostOrder() -> cal height -> change info.
+
+	Q3: Graph
+	f1: Display deg[2nd-7th] Breadth.
+	f2: Dijkstra's shortest path.
+
+02. CSD201_PE_SU24_757326
+	Q1: Linked List
+	f2: 
+	f3: 
+	f4: 
+	f5: 
+
+	Q2: BSTree
+	f2: 
+	f3: 
+	f4: 
+	f5: 
+
+02. CSD201_PE_SU24_757326 (3Qs)
+	Q1: Linked List
+	f2: 
+	f3: 
+	f4: 
+
+	Q2: BSTree
+	f2: 
+	f3: 
+	f4: 
+
+	Q3: Graph
+	f1: 
+	f2: 

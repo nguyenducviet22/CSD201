@@ -102,7 +102,7 @@ public class BSTree {
 
     public void deleteByMerging(Node node) {
         Node rightMost = node.left, par = searchParent(node);
-        while (rightMost != null) {
+        while (rightMost.right != null) {
             rightMost = rightMost.right;
         }
         rightMost.right = node.right;
@@ -176,7 +176,7 @@ public class BSTree {
                 rightMost = rightMost.right;
             }
             node.value = rightMost.value;
-            if (rightMost.right == null) {
+            if (par == null) {
                 node.left = rightMost.left;
             } else {
                 par.right = rightMost.left;
