@@ -56,10 +56,10 @@ public class MyList {
     void addLast(String xPlace, int xWeight, int xColor) { //f1
         //You should write here appropriate statements to complete this function.
         //--------------------------------------------------------
-        Node node = new Node(new Bike(xPlace, xWeight, xColor));
         if (xWeight < 0) {
             return;
         }
+        Node node = new Node(new Bike(xPlace, xWeight, xColor));
         if (isEmpty()) {
             head = tail = node;
         } else {
@@ -196,11 +196,11 @@ public class MyList {
         ftraverse(f);
         f.close();
     }
-    
-    void sort(){
-        for (Node pi = head; pi != null; pi = pi.next){
-            for (Node pj = pi.next; pj != null; pj = pj.next){
-                if (pi.info.weight < pj.info.weight){
+
+    void sort() {
+        for (Node pi = head; pi != null; pi = pi.next) {
+            for (Node pj = pi.next; pj != null; pj = pj.next) {
+                if (pi.info.weight < pj.info.weight) {
                     Bike temp = pi.info;
                     pi.info = pj.info;
                     pj.info = temp;

@@ -47,23 +47,23 @@ public class LinkedList {
         }
         if (index == 0) {
             addFirst(value);
+            return;
+        }
+        if (index > size() || index < 0) {
+            return;
+        }
+        Node node = new Node(value);
+        Node cur = head;
+        int pos = 0;
+        while (index - 1 > pos) {
+            cur = cur.next;
+            pos++;
+        }
+        if (cur == null) {
+            return;
         } else {
-            Node cur = head;
-            int pos = 0;
-            while (cur != null) {
-                if (index - 1 == pos) {
-                    break;
-                }
-                cur = cur.next;
-                pos++;
-            }
-            if (cur == null) {
-                return;
-            } else {
-                Node node = new Node(value);
-                node.next = cur.next;
-                cur.next = node;
-            }
+            node.next = cur.next;
+            cur.next = node;
         }
     }
 
@@ -102,6 +102,43 @@ public class LinkedList {
         } else {
             head = head.next;
         }
+    }
+
+    void delIndex(int value, int index) {
+        if (index < 0) {
+            return;
+        }
+        if (index == 0) {
+            delFirst();
+            return;
+        }
+        if (index >= size() || index < 0) {
+            return;
+        }
+        Node cur = head;
+        int pos = 0;
+        while (index - 1 > pos) {
+            cur = cur.next;
+            pos++;
+        }
+        if (cur == null) {
+            return;
+        } else {
+            cur.next = cur.next.next;
+        }
+    }
+
+    int search(int value) {
+        Node cur = head;
+        int pos = 0;
+        while (cur != null) {
+            if (cur.value == value) {
+                return pos;
+            }
+            cur = cur.next;
+            pos++;
+        }
+        return -1;
     }
 
     void sort() {
@@ -257,7 +294,7 @@ public class LinkedList {
 
     void display() {
         Node cur = head;
-        while (cur != null) {
+        while (cur != null) {//cur.next == null
             System.out.print(cur.value + " ");
             cur = cur.next;
         }
