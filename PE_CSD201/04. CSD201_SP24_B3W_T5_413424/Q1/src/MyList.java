@@ -126,7 +126,7 @@ public class MyList {
         /*You must keep statements pre-given in this function.
         Your task is to insert statements here, just after this comment,
         to complete the question in the exam paper.*/
-        delete();
+        delete(findMaxWeight());
         //------------------------------------------------------------------------------------
         ftraverse(f);
         f.close();
@@ -144,8 +144,7 @@ public class MyList {
         return max;
     }
 
-    void delete() {
-        int maxWeight = findMaxWeight();
+    void delete(int maxWeight) {
         int count = 0;
         for (Node cur = head; cur != null; cur = cur.next) {
             if (cur.next != null && cur.next.info.weight == maxWeight) {

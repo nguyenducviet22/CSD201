@@ -31,26 +31,26 @@ public class BSTree {
             root = node;
             return;
         }
-        Node cur = root, dad = null;
-        while (cur != null) {
-            if (cur.value == x) {
+        Node p = root, f = null;
+        while (p != null) {
+            if (p.value == x) {
                 return;
             }
-            dad = cur;
-            if (cur.value > x) {
-                cur = cur.left;
+            f = p;
+            if (p.value > x) {
+                p = p.left;
             } else {
-                cur = cur.right;
+                p = p.right;
             }
         }
-        if (dad.value > x) {
-            dad.left = node;
+        if (f.value > x) {
+            f.left = node;
         } else {
-            dad.right = node;
+            f.right = node;
         }
     }
 
-    public void preOrder(Node p) {//???
+    public void preOrder(Node p) {
         if (p == null) {
             return;
         }
@@ -59,9 +59,22 @@ public class BSTree {
         preOrder(p.right);
     }
 
-    public void preOrder() {
-        preOrder(root);
-        System.out.println("");
+    public void inOrder(Node p) {
+        if (p == null) {
+            return;
+        }
+        preOrder(p.left);
+        System.out.print(p.value + " ");
+        preOrder(p.right);
+    }
+
+    public void postOrder(Node p) {
+        if (p == null) {
+            return;
+        }
+        preOrder(p.left);
+        preOrder(p.right);
+        System.out.print(p.value + " ");
     }
 
     public void breadthFirst() {
@@ -170,6 +183,7 @@ public class BSTree {
 
         //2 children
         if (node.left != null && node.right != null) {
+            par = null;
             Node rightMost = node.left;
             while (rightMost.right != null) {
                 par = rightMost;
@@ -177,7 +191,7 @@ public class BSTree {
             }
             node.value = rightMost.value;
             if (par == null) {
-                node.left = rightMost.left;
+                node.left = rightMost.left;//node.right???
             } else {
                 par.right = rightMost.left;
             }
@@ -206,8 +220,16 @@ public class BSTree {
         bst.insert(9);
         Node trNode = new Node(3);
 
-        System.out.println("PreOrder Traversal: ");
-        bst.preOrder();
+        System.out.print("PreOrder Traversal: ");
+        bst.preOrder(bst.root);
+        System.out.println("");
+        System.out.print("InOrder Traversal: ");
+        bst.inOrder(bst.root);
+        System.out.println("");
+        System.out.print("PostOrder Traversal: ");
+        bst.postOrder(bst.root);
+        System.out.println("");
+        
         System.out.println("Breadth-First Traversal: ");
         bst.breadthFirst();
         System.out.println("Delete by copying: ");

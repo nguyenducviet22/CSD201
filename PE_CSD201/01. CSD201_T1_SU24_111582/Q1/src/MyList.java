@@ -112,19 +112,15 @@ public class MyList {
         f.close();
     }
 
-    void insertIndexNode(Node n, int index) {
-        int count = 1;
-        Node x = head;
-        while (x != null && count != index) {
-            x = x.next;
+    void insertIndexNode(Node node, int pos) {
+        int count = 0;
+        Node p = head;
+        while (count < pos - 1) {
+            p = p.next;
             count++;
         }
-//        p.next = x.next;
-//        x.next = p;
-
-        Node temp = x.next;
-        x.next = n;
-        n.next = temp;
+        node.next = p.next;
+        p.next = node;
     }
 
 //==================================================================
@@ -141,8 +137,9 @@ public class MyList {
         //You should write here appropriate statements to complete this function.
         //--------------------------------------------------------
         int weight = maxWeight();
-        Node n = searchNode(weight);
-        removeNode(n);
+//        Node n = searchNode(weight);
+//        removeNode(n);
+        removeNode2(weight);
         //---------------------------------------------------------
         ftraverse(f);
         f.close();
@@ -150,12 +147,12 @@ public class MyList {
 
     int maxWeight() {
         int max = 0;
-        Node n = head;
-        while (n != null) {
-            if (n.info.weight > max) {
-                max = n.info.weight;
+        Node p = head;
+        while (p != null) {
+            if (p.info.weight > max) {
+                max = p.info.weight;
             }
-            n = n.next;
+            p = p.next;
         }
         return max;
     }
@@ -172,22 +169,44 @@ public class MyList {
     }
 
     void removeNode(Node n) {
-        Node node = head;
+        Node p = head;
         Node pre = null;
-        while (node != null) {
-            if (node == n) {
+        while (p != null) {
+            if (p == n) {
                 break;
             }
-            pre = node;
-            node = node.next;
+            pre = p;
+            p = p.next;
         }
-        if (node == null) {
+        if (p == null) {
             return;
         } else {
-            pre.next = node.next;
+            pre.next = p.next;
         }
-        if (node.next == null) {
-            tail = node;
+        if (p.next == null) {
+            tail = p;
+        }
+    }
+
+    void removeNode(int weight) {
+        Node p = head;
+        while (p.next.info.weight != weight) {
+            p = p.next;
+        }
+        p.next = p.next.next;
+    }
+
+    void removeNode2(int weight) {
+        int count = 0;
+        Node p = head;
+        while (p != null) {
+            if (p.next.info.weight == weight) {
+                count++;
+                if (count == 2) {
+                    p.next = p.next.next;
+                }
+            }
+            p = p.next;
         }
     }
 
