@@ -41,35 +41,42 @@ public class LinkedList {
         }
     }
 
-    void addIndex(int value, int index) {
-        if (index < 0) {
-            return;
-        }
-        if (index == 0) {
-            addFirst(value);
-            return;
-        }
-        if (index > size() || index < 0) {
-            return;
-        }
+    void addIndex(int value, int pos) {
         Node node = new Node(value);
-        Node cur = head;
-        int pos = 0;
-        while (index - 1 > pos) {
-            cur = cur.next;
-            pos++;
-        }
-        if (cur == null) {
+        if (pos > size() || pos < 0) {
             return;
+        }
+        if (pos == 0) {
+            node.next = head;
+            head = node;
+        }
+        Node cur = head;
+        int index = 0;
+        while (pos - 1 > index) {
+            cur = cur.next;
+            index++;
+        }
+        node.next = cur.next;
+        cur.next = node;
+    }
+
+    void delFirst() {
+        if (isEmpty()) {
+            return;
+        }
+        if (head == tail) {
+            head = tail = null;
         } else {
-            node.next = cur.next;
-            cur.next = node;
+            head = head.next;
         }
     }
 
     void delLast() {
         if (isEmpty()) {
             return;
+        }
+        if (head == tail) {
+            head = tail = null;
         } else {
             Node cur = head;
             while (cur.next.next != null) {
@@ -80,51 +87,39 @@ public class LinkedList {
         }
     }
 
-    int deleteLast() {
-        int value = 0;
-        if (isEmpty()) {
-            return -1;
-        } else {
-            Node cur = head;
-            while (cur.next.next != null) {
-                cur = cur.next;
-            }
-            value = cur.next.value;
-            cur.next = null;
-            tail = cur;
-        }
-        return value;
-    }
-
-    void delFirst() {
+    void delIndex(int pos) {
         if (isEmpty()) {
             return;
-        } else {
+        }
+        if (pos >= size() || pos < 0) {
+            return;
+        }
+        if (pos == 0) {
             head = head.next;
         }
+        Node cur = head;
+        int index = 0;
+        while (pos - 1 > index) {
+            cur = cur.next;
+            index++;
+        }
+        cur.next = cur.next.next;
     }
 
-    void delIndex(int value, int index) {
-        if (index < 0) {
+    void delNode(int value) {
+        if (isEmpty()) {
             return;
         }
-        if (index == 0) {
-            delFirst();
+        if (head.value == value) {
+            head = head.next;
             return;
         }
-        if (index >= size() || index < 0) {
-            return;
-        }
-        Node cur = head;
-        int pos = 0;
-        while (index - 1 > pos) {
-            cur = cur.next;
-            pos++;
-        }
-        if (cur == null) {
-            return;
-        } else {
-            cur.next = cur.next.next;
+        Node p = head;
+        while (p.next != null) {
+            if (p.next.value == value) {
+                p.next = p.next.next;
+            }
+            p = p.next;
         }
     }
 
@@ -171,20 +166,6 @@ public class LinkedList {
         }
     }
 
-    void sortKLastNodes(int k) {
-        int count = 0;
-        for (Node ci = head; ci != null; ci = ci.next) {
-            for (Node cj = ci.next; cj != null; cj = cj.next) {
-                if (ci.value > cj.value && count > k - 1) {
-                    int temp = ci.value;
-                    ci.value = cj.value;
-                    cj.value = temp;
-                }
-            }
-            count++;
-        }
-    }
-
     void sortLastKNodes(int k) {
         int startedIndex = size() - k;
         Node cur = head;
@@ -214,7 +195,7 @@ public class LinkedList {
         return count;
     }
 
-//    int getIndexByWhile(int value) {
+//    int getIndex(int value) {
 //        int count = 0;
 //        Node cur = head;
 //        while (cur != null) {
@@ -223,16 +204,6 @@ public class LinkedList {
 //            }
 //            count++;
 //            cur = cur.next;
-//        }
-//        return count;
-//    }
-//
-//    int getIndexByFor(int value) {
-//        int count = 0;
-//        for (Node cur = head; cur != null; cur = cur.next) {
-//            if (cur.value == value) {
-//                break;
-//            } else count++;
 //        }
 //        return count;
 //    }
@@ -249,7 +220,7 @@ public class LinkedList {
         return null;
     }
 
-    void sortFromKToHByWhile(int k, int h) {
+    void sortFromKToHByFor(int k, int h) {
         if (k > h) {
             return;
         }
@@ -260,25 +231,6 @@ public class LinkedList {
         if (h > n - 1) {
             h = n - 1;
         }
-        Node u = pos(k);
-        Node v = pos(h + 1);//???
-        Node pi, pj;
-        pi = u;
-        while (pi != v) {
-            pj = pi.next;
-            while (pj != v) {
-                if (pi.value > pj.value) {
-                    int temp = pi.value;
-                    pi.value = pj.value;
-                    pj.value = temp;
-                }
-                pj = pj.next;
-            }
-            pi = pi.next;
-        }
-    }
-
-    void sortFromKToHByFor(int k, int h) {
         Node nk = pos(k);
         Node nh = pos(h + 1);
         for (Node pi = nk; pi != nh; pi = pi.next) {
@@ -312,26 +264,18 @@ public class LinkedList {
         ll.addLast(9);
         ll.addLast(7);
         ll.addLast(8);
+        ll.addLast(3);
         System.out.println("List of numbers: ");
         ll.display();
-//        int x = ll.deleteLast();
-//        if (x == -1) {
-//            System.out.println("The list is empty.");
-//        } else {
-//            System.out.println("Deleted: " + x);
-//        }
-//        ll.display();
-//
-//        ll.delLast();
-//        ll.delFirst();
-//        ll.display();
-//
+
+        ll.delNode(3);
+//        ll.delIndex(10);
+        ll.display();
+
 //        ll.sort();;
-//        ll.sortInSelection();
-//        ll.sortInBubble();
 //        System.out.println("Sorted list: ");
 //        ll.display();
-//        
+//
 //        ll.sortFirstKNodes(4);
 //        System.out.println("Sorted list: ");
 //        ll.display();
@@ -340,12 +284,8 @@ public class LinkedList {
 //        System.out.println("Sorted list: ");
 //        ll.display();
 //
-//        ll.sortFromKToHByWhile(1, 7);
+//        ll.sortFromKToHByFor(2, 8);
 //        System.out.println("Sorted list: ");
 //        ll.display();
-
-        ll.sortFromKToHByFor(2, 8);
-        System.out.println("Sorted list: ");
-        ll.display();
     }
 }

@@ -114,18 +114,15 @@ public class MyList {
         f.close();
     }
 
-    void insertIndex(Node n, int pos) {
+    void insertIndex(Node node, int pos) {
         Node cur = head;
         int index = 0;
-        while (cur != null) {
-            if (cur.next != null && index != pos - 1) {
-                cur = cur.next;
-                index++;
-            }
+        while (pos - 1 > index) {
+            cur = cur.next;
+            index++;
         }
-        Node tmp = cur.next;
-        cur.next = n;
-        n.next = tmp;
+        node.next = cur.next;
+        cur.next = node;
     }
 
 //==================================================================

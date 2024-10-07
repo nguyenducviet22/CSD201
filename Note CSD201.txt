@@ -1,0 +1,44 @@
+When should we traverse (or p != null)?
+
+LINKED LIST
+Một Motobike có các thuộc tính sau: ID, price, yearOfProduct, color, branch
+Viết chương trình quản lý danh sách các Motobike bằng danh sách liên kết đơn với các yêu cầu sau:
+1.     Thêm một Motobike vào danh sách, trừ trường hợp Motobike đó có năm sản xuất là 2022 (Thêm vào đầu danh sách)
+2.     Giảm giá của các Motobike được sản xuất bởi hãng Honda, mỗi Motobike sẽ giảm 1.050.000
+3.     Lấy ra tất cả các Motobike có màu là Black
+4.     Giả sử danh sách có tối thiểu 4 Motobike, xóa đi 3 Motobike ở đầu danh sách. In ra danh sách Motobike còn lại
+5.     Sắp xếp các Motobike theo giá tăng dần.
+
+STACK
+Xây dựng cấu trúc dữ liệu STACK, tạo một project tên LaptopMgmt (không tạo thêm package, tạo cái file java trong default package)
+
+Một Laptop có các thuộc tính sau: ID (String, Lxx, xx is a number), price (double, >0), yearOfProduct (int, <= current), color (String, (red, blue, silver, black, gold, pink, white)), brand (String, (MSI, ACER, ASUS, APPLE, HP, LENOVO, DELL))
+
+Viết chương trình quản lý các Laptop với các chức năng sau (viết menu để chọn 1->4):
+1.     Thêm mới một Laptop, yêu cầu năm sản xuất >= 2020
+2.     In ra toàn bộ các laptop theo năm sản xuất giảm dần
+3.     In ra toàn bộ các laptop có color= "blue"
+4.     Điều chỉnh giá của các Laptop được sản xuất bởi hãng APPLE tăng 2%
+Lưu ý: trong hàm main(): thêm vào trước ít nhất 3 Laptop trước khi gọi menu 1, 2, 3, 4
+
+
+BST
+Sử dụng cây BST dựa trên mã sinh viên (stdID), viết chương trình quản lý danh sách sinh viên <stdID, stdName, yearOfBirth, gpa, phoneNumber > có các chức năng:
+
+1. Thêm thông tin một sinh viên vào BST
+2. Xoá một sinh viên ra khỏi BST theo stdID
+3. Cập nhật điểm trung bình (gpa + 1.0) của tất cả các sinh viên, với điều kiện sinh viên đó đang là Leaf
+4. Cập nhật số điện thoại của sinh viên dựa trên stdID
+5. In toàn bộ danh sách sinh viên đã nhập theo PreOrder và InOrder.
+
+Gợi ý: Xây dựng lớp Student có implements interface java.lang.Comparable, override hai hành vi:
+
+public int compareTo(Object st) {
+return this.stdID.compareTo(((Student)st).stdID); }
+
+Hành vi compareTo(…) được dùng để so sánh mã khi thêm sinh viên vào cây cũng như tìm kiếm sinh viên dựa trên mã sinh viên.
+
+public String toString(){
+}
+
+Hành vi toString() được dùng khi xuất danh sách sinh viên

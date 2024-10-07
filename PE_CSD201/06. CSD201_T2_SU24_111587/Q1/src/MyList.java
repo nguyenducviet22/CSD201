@@ -99,7 +99,7 @@ public class MyList {
         ftraverse(f);
         //You should write here appropriate statements to complete this function.
         //--------------------------------------------------------
-        deleteNode(3);
+        deleteNode(2);
         //---------------------------------------------------------
         ftraverse(f);
         f.close();
@@ -107,15 +107,12 @@ public class MyList {
 
     void deleteNode(int pos) {
         Node cur = head;
-        int count = 1;
-        while (cur != null) {
-            if (cur.next != null && count == pos - 1) {
-                Node temp = cur.next.next;
-                cur.next = temp;
-            }
+        int count = 0;
+        while (count < pos - 1) {
             count++;
             cur = cur.next;
         }
+        cur.next = cur.next.next;
     }
 
 //==================================================================
@@ -157,7 +154,7 @@ public class MyList {
         ftraverse(f);
         //You should write here appropriate statements to complete this function.
         //--------------------------------------------------------
-        delete(4);
+        delete2(4);
         ftraverse(f);
         //---------------------------------------------------------
         f.close();
@@ -177,6 +174,21 @@ public class MyList {
                 pre = cur;
             }
             cur = cur.next;
+        }
+    }
+
+    void delete2(int weight) {
+        while (head.info.weight < weight) {
+            head = head.next;
+        }
+        Node p = head;
+        while (p != null) {
+            if (p.next != null && p.next.info.weight < weight) {
+                p.next = p.next.next;
+            } else {
+                p = p.next;
+            }
+            
         }
     }
 
@@ -201,19 +213,14 @@ public class MyList {
     }
 
     void sort() {
-        Node ci = head;
-        while (ci.next != null) {
-            Node cj = ci.next;
-            while (cj.next != null) {
-                Car temp;
-                if (ci.info.weight > cj.next.info.weight) {
-                    temp = ci.info;
-                    ci.info = cj.next.info;
-                    cj.next.info = temp;
+        for (Node pi = head; pi != null; pi = pi.next){
+            for (Node pj = pi.next; pj != null; pj = pj.next){
+                if (pi.info.weight > pj.info.weight){
+                    Car temp = pi.info;
+                    pi.info = pj.info;
+                    pj.info = temp;
                 }
-                cj = cj.next;
             }
-            ci = ci.next;
         }
     }
 
