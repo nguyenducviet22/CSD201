@@ -184,7 +184,7 @@ public class BSTree {
         Node p = root, f = null;
         while (p != null) {
             if (p.getInfo().getStdID().compareTo(id) == 0) {
-                System.out.println("Enter phone:");
+                System.out.print("Enter phone:");
                 String phone = sc.nextLine();
                 p.getInfo().setPhoneNumber(phone);
             }
@@ -218,7 +218,7 @@ public class BSTree {
     void print() {
         System.out.println("PreOrder List: ");
         preOrder(root);
-
+        System.out.println("");
         System.out.println("InOrder List: ");
         inOrder(root);
     }
